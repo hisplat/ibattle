@@ -9,7 +9,7 @@ LD	:= clang++
 AR	:= ar
 CXXFLAGS := -Wall -Werror -O0 -g -pg -Wno-unused -Wno-unreachable-code -Wno-unused-parameter -Wno-unused-result -Wno-deprecated -fPIC -std=c++0x -fno-rtti
 CFLAGS := -Wall -Werror -O0 -g -pg -Wno-unused -Wno-unreachable-code -Wno-unused-parameter -Wno-unused-result -Wno-deprecated -fPIC
-INCLUDES = -Isrc/common -Isrc/debugtools -Isrc/base
+INCLUDES = -Isrc
 
 LINKS	= -g -pg -L. -ldl -rdynamic
 LIBS	= -lpthread -lrt
@@ -27,7 +27,9 @@ base_src_files += src/base/lock.cpp
 base_src_files += src/base/crc32.cpp
 base_src_files += src/base/md5sum.cpp
 
-common_src_files := 
+common_src_files := src/common/poller.cpp
+common_src_files += src/common/worker.cpp
+common_src_files += src/common/timer.cpp
 
 
 gate_source := src/gate/main.cpp

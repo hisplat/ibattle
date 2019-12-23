@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#define DECLARE_CLASS(clz) virtual const char * getClassName() { return #clz; }
+
 namespace base {
 namespace helper {
 
