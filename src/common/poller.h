@@ -19,7 +19,7 @@ public:
         Executor() {}
         virtual ~Executor() {}
         virtual void onCommand(Worker* worker, Command* cmd) = 0;
-        virtual void onNewConnection(int fromfd, void* arg) {}
+        virtual void onNewConnection(Worker* worker, void* arg) {}
         virtual void onDisconnect(Worker* worker) {}
         virtual void onTimeout(Worker* worker) {}
         virtual void onHeartbit(Worker* worker) {}
@@ -32,7 +32,7 @@ public:
 
     void run();
     void onCommand(Worker* worker, Command* cmd);
-    void onNewConnection(int fromfd, void* arg);
+    void onNewConnection(Worker* worker, void* arg);
     void onDisconnect(Worker* worker);
     void onFileChanged(Worker* worker, const std::string& path, int mask);
 

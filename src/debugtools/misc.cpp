@@ -1,6 +1,6 @@
 
-#include "helper.h"
-#include "logging.h"
+#include "base/helper.h"
+#include "base/logging.h"
 #include "instant_function.h"
 
 namespace {

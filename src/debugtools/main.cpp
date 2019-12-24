@@ -6,8 +6,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "helper.h"
-#include "logging.h"
+#include "base/helper.h"
+#include "base/logging.h"
 #include "instant_function.h"
 
 static void usage()

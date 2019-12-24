@@ -51,10 +51,10 @@ void Worker::onDisconnected()
     mPoller->onDisconnect(this);
 }
 
-void Worker::onNewConnection(int fromfd, void* arg)
+void Worker::onNewConnection(void* arg)
 {
     mLastReceivedTime = base::helper::mtick();
-    mPoller->onNewConnection(fromfd, arg);
+    mPoller->onNewConnection(this, arg);
 }
 
 void Worker::onFileChanged(const std::string& path, int mask)
@@ -148,10 +148,10 @@ void Worker::Device::onDisconnected()
     }
 }
 
-void Worker::Device::onNewConnection(int fromfd, void* arg)
+void Worker::Device::onNewConnection(void* arg)
 {
     if (mWorker != NULL) {
-        mWorker->onNewConnection(fromfd, arg);
+        mWorker->onNewConnection(arg);
     }
 }
 

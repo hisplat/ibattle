@@ -19,6 +19,7 @@ base_src_files := src/base/logging.cpp
 base_src_files += src/base/dump.cpp
 base_src_files += src/base/buffer.cpp
 base_src_files += src/base/helper.cpp
+base_src_files += src/base/string_utils.cpp
 base_src_files += src/base/archive.cpp
 base_src_files += src/base/condition.cpp
 base_src_files += src/base/thread_pool.cpp
@@ -26,13 +27,19 @@ base_src_files += src/base/pipe_waiter.cpp
 base_src_files += src/base/lock.cpp
 base_src_files += src/base/crc32.cpp
 base_src_files += src/base/md5sum.cpp
+base_src_files += src/base/socket.cpp
 
 common_src_files := src/common/poller.cpp
 common_src_files += src/common/worker.cpp
 common_src_files += src/common/timer.cpp
-
+common_src_files += src/parser/parser.cpp
+common_src_files += src/device/base_device.cpp
+common_src_files += src/device/net_device.cpp
+common_src_files += src/device/listener_device.cpp
 
 gate_source := src/gate/main.cpp
+gate_source += src/gate/gate.cpp
+gate_source += src/gate/gate_worker.cpp
 gate_source += $(base_src_files)
 gate_source += $(common_src_files)
 gate_objects := $(gate_source:.cpp=.o)

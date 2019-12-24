@@ -189,10 +189,10 @@ void Poller::onCommand(Worker* worker, Command* cmd)
     }
 }
 
-void Poller::onNewConnection(int fromfd, void* arg)
+void Poller::onNewConnection(Worker * worker, void* arg)
 {
     if (mExecutor != NULL) {
-        mExecutor->onNewConnection(fromfd, arg);
+        mExecutor->onNewConnection(worker, arg);
     }
 }
 

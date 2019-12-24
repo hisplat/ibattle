@@ -31,7 +31,7 @@ public:
         void attach(Worker * w);
         void onData(const void * buf, int len);
         void onDisconnected();
-        void onNewConnection(int fromfd, void* arg);
+        void onNewConnection(void* arg);
         void onFileChanged(const std::string& path, int mask);
 
     private:
@@ -79,7 +79,7 @@ protected:
     friend class Device;
     // called by device.
     void onDisconnected();
-    void onNewConnection(int fromfd, void* arg);
+    void onNewConnection(void* arg);
     void onFileChanged(const std::string& path, int mask);
 
 private:

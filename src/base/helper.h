@@ -1,5 +1,6 @@
 #pragma once
 
+#include "string_utils.h"
 #include <list>
 #include <vector>
 #include <string>
@@ -8,18 +9,6 @@
 
 namespace base {
 namespace helper {
-
-std::string trim(const std::string& input, const char * trim_chars = " \r\n\t");
-
-// split
-int split(const std::string& input, std::list<std::string>& output, char delimiter = ' ');
-int split(const std::string& input, std::vector<std::string>& output, char delimiter = ' ');
-std::vector<std::string> split(const std::string& input, char delimiter = ' ');
-bool startsWith(const std::string& s, const std::string& n);
-std::string implode(std::vector<std::string> v, const char * delimiter = ",");
-
-// int to string
-std::string intToString(int input);
 
 
 long mtick();
