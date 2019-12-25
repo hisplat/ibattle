@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
         logging::setLogLevel(logging::kLogLevel_Important);
     }
 
-    init_signal();
+    // init_signal();
     gate = new ib::Gate();
     gate->run(serverport, nodeport, controllerport, watcherport, databaseport);
     delete gate;

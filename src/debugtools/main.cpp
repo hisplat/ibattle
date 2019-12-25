@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 {
     // log cmdlines into logd for debugging.
     std::vector<std::string> args(argv, argv + argc);
-    NFLOG() << "starting debugtools with command: '" << base::helper::implode(args, " ") << "', PPID: " << getppid() << ", UID: " << getuid();
+    IMPORTANT() << "starting debugtools with command: '" << base::helper::implode(args, " ") << "', PPID: " << getppid() << ", UID: " << getuid();
 
     // instant functions.
     if (argc > 1) {
@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
             }
         }
     }
+    usage();
 
     return 0;
 }

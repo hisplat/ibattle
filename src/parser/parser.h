@@ -14,11 +14,10 @@ public:
     // = 0: unknown bytes erased, try again.
     // < 0: nothing parsed. need more data.
     int parse(const void * moredata = NULL, int len = 0, bool check = true);
-    virtual void onPacketParsed(const void* data, int len) = 0;
+    virtual void onPacketParsed(const void* data, int len, int data_offset) = 0;
 
     // void createPacket(Command* command);
     // virtual void onPacketCreated(const void * data, int len) = 0;
-
 
 private:
     base::Buffer mBuffer;

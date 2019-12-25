@@ -58,7 +58,7 @@ int Parser::parse(const void * moredata, int len, bool check)
     } else if (mParseState == eParseState_BodyReceived) {
         int datalen = sizeof(PacketHeader) + header->dataSize;
         int offset = sizeof(PacketHeader);
-        onPacketParsed(mBuffer.buffer(), datalen);
+        onPacketParsed(mBuffer.buffer(), datalen, sizeof(PacketHeader));
         mBuffer.erase_before(datalen);
         mParseState = eParseState_Init;
         return datalen;
