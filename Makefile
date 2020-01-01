@@ -47,12 +47,16 @@ gate_source += $(base_src_files)
 gate_source += $(common_src_files)
 gate_objects := $(gate_source:.cpp=.o)
 
+client_src_files := src/client/client.cpp
+client_src_files += src/client/libibattle.cpp
 
 debugtools_source := src/debugtools/main.cpp
 debugtools_source += src/debugtools/instant_function.cpp
 debugtools_source += src/debugtools/misc.cpp
+debugtools_source += src/debugtools/invoke.cpp
 debugtools_source += $(base_src_files)
 debugtools_source += $(common_src_files)
+debugtools_source += $(client_src_files)
 
 debugtools_objects := $(debugtools_source:.cpp=.o)
 

@@ -54,5 +54,12 @@ void ParserWorker::onPacketParsed(const void * data, int len, int data_offset)
     delete command;
 }
 
+void ParserWorker::write(Command* command)
+{
+    base::Buffer buf = createPacket(command);
+
+    Worker::write(buf.buffer(), buf.length());
+}
+
 } // namespace ib
 

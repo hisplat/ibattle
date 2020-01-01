@@ -10,7 +10,7 @@ namespace CommandParser {
 
 Command * makeCommand(const void * data, int len);
 
-int makePacket(base::Buffer& packet);
+base::Buffer packCommand(Command* command);
 
 } // namespace CommandParser
 } // namespace ib

@@ -1,6 +1,7 @@
 #include "parser.h"
 #include "base/helper.h"
 #include "base/logging.h"
+#include "parser/command_parser.h"
 
 #include <string.h>
 
@@ -69,31 +70,22 @@ int Parser::parse(const void * moredata, int len, bool check)
     return 0;
 }
 
-// void Parser::createPacket(Command* command)
-// {
-//     PacketHeader header;
-//     memset(&header, 0, sizeof(header));
-// 
-//     Buffer packet;
-//     int len = command->createPacket(packet);
-// 
-//     memcpy(header.magic, "HiRPC", 5);
-//     header.version = 1;
-//     header.hdrSize = sizeof(header);
-//     header.dataSize = len; // command->getHeaderLength() + len; // command->getData().length();
-// 
-//     unsigned int crc1 = helper::crc32(&header, sizeof(header) - 16);
-//     unsigned int crc2 = helper::crc32(packet.buffer(), packet.length());
-// 
-//     memcpy(header.crc, &crc1, sizeof(crc1));
-//     memcpy(header.crc + 8, &crc2, sizeof(crc2));
-// 
-//     Buffer buffer;
-//     buffer.append((const char *)&header, sizeof(header));
-//     buffer.append(packet);
-// 
-//     onPacketCreated(buffer.buffer(), buffer.length());
-// }
+base::Buffer Parser::createPacket(Command* command)
+{
+    PacketHeader header;
+    memset(&header, 0, sizeof(header));
+
+    base::Buffer cmdbuf = CommandParser::packCommand(command);
+    int len = cmdbuf.length();
+
+    memcpy(header.magic, "iBt!", 4);
+    header.dataSize = len;
+
+    base::Buffer buffer;
+    buffer.append((const char *)&header, sizeof(header));
+    buffer.append(cmdbuf);
+    return buffer;
+}
 
 
 } // namespace ib

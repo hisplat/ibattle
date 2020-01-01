@@ -6,6 +6,7 @@
 
 namespace ib {
 
+class Command;
 class ParserWorker : public Worker, public Parser {
 public:
     ParserWorker(Worker::Device* device);
@@ -19,6 +20,9 @@ public:
 
     // Overrided from Parser
     virtual void onPacketParsed(const void * data, int len, int data_offset);
+
+
+    void write(Command* command);
 
 protected:
     ParserWorker();

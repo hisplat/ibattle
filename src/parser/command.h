@@ -26,6 +26,8 @@ public:
         eAction_Live,
         eAction_Database,
 
+        eAction_Login,
+
     } CommandAction;
 
     Command();
@@ -41,6 +43,12 @@ public:
     std::string source() { return mSource; }
     std::string destination() { return mDestination; }
 
+    void setType(CommandType type) { mType = type; }
+    void setAction(CommandAction action) { mAction = action; }
+    void setCid(int cid) { mCid = cid; }
+    void setSid(int sid) { mSid = sid; }
+    void setSource(const std::string& source) { mSource = source; }
+    void setDestination(const std::string& destination) { mDestination = destination; }
 
     virtual void dump(std::ostream& o) {}
 protected:

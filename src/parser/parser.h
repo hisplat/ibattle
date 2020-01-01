@@ -16,7 +16,7 @@ public:
     int parse(const void * moredata = NULL, int len = 0, bool check = true);
     virtual void onPacketParsed(const void* data, int len, int data_offset) = 0;
 
-    // void createPacket(Command* command);
+    base::Buffer createPacket(Command* command);
     // virtual void onPacketCreated(const void * data, int len) = 0;
 
 private:
