@@ -36,9 +36,11 @@ common_src_files += src/parser/parser.cpp
 common_src_files += src/parser/command_parser.cpp
 common_src_files += src/parser/command.cpp
 common_src_files += src/parser/parser_worker.cpp
+common_src_files += src/parser/stdin_worker.cpp
 common_src_files += src/device/base_device.cpp
 common_src_files += src/device/net_device.cpp
 common_src_files += src/device/listener_device.cpp
+common_src_files += src/device/stdin_device.cpp
 
 gate_source := src/gate/main.cpp
 gate_source += src/gate/gate.cpp
