@@ -47,7 +47,6 @@ gate_source += src/gate/gate.cpp
 gate_source += src/gate/gate_worker.cpp
 gate_source += $(base_src_files)
 gate_source += $(common_src_files)
-gate_objects := $(gate_source:.cpp=.o)
 
 client_src_files := src/client/client.cpp
 client_src_files += src/client/libibattle.cpp
@@ -60,19 +59,40 @@ debugtools_source += $(base_src_files)
 debugtools_source += $(common_src_files)
 debugtools_source += $(client_src_files)
 
-debugtools_objects := $(debugtools_source:.cpp=.o)
+demoserver_source := src/demo/server.cpp
+demoserver_source += $(base_src_files)
+demoserver_source += $(common_src_files)
+demoserver_source += $(client_src_files)
 
-all: gate debugtools
+demonode_source := src/demo/node.cpp
+demonode_source += $(base_src_files)
+demonode_source += $(common_src_files)
+demonode_source += $(client_src_files)
 
-gate: $(gate_objects)
-	@echo Linking $@ ...
-	$(LD) $^ $(LINKS) $(LIBS) -o$@
-	@echo $@ done.
+all:
+demo:
 
-debugtools: $(debugtools_objects)
-	@echo Linking $@ ...
-	$(LD) $^ $(LINKS) $(LIBS) -o$@
-	@echo $@ done.
+include build/main.mk
+
+define build-elf
+$(eval include build/clear_vars.mk)
+$(eval LOCAL_TARGET := $(1))
+$(eval LOCAL_CLASS := all)
+$(eval include build/build_elf.mk)
+endef
+define build-demo
+$(eval include build/clear_vars.mk)
+$(eval LOCAL_TARGET := $(1))
+$(eval LOCAL_CLASS := demo)
+$(eval include build/build_elf.mk)
+endef
+
+
+
+$(eval $(call build-elf, gate))
+$(eval $(call build-elf, debugtools))
+$(eval $(call build-demo, demoserver))
+$(eval $(call build-demo, demonode))
 
 
 .cpp.o:
@@ -91,6 +111,7 @@ debugtools: $(debugtools_objects)
 
 clean:
 	rm -fv gate debugtools
+	rm -fv demoserver demonode
 	find . -name '*.o' -exec rm -fv {} \;
 	find . -name '*.d' -exec rm -fv {} \;
 	rm -fv gmon.out

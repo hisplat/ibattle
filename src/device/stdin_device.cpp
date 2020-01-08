@@ -29,8 +29,9 @@ void StdinDevice::onDataArrival(int fd)
 
 void StdinDevice::write(const void * buf, int len)
 {
-    base::Buffer buffer(buf, len);
-    QUIET() << buffer;
+    // base::Buffer buffer(buf, len);
+    // QUIET() << buffer;
+    printf("<gate> %s\n", (const char *)buf);
 }
 
 } // namespace ib
