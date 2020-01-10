@@ -10,12 +10,12 @@ namespace ib {
 class Command : public base::Serializer {
 public:
     typedef enum {
-        eType_Async,
+        eType_Async = 0,
         eType_Sync,
     } CommandType;
 
     typedef enum {
-        eAction_Invoke,
+        eAction_Invoke = 0,
         eAction_Ret,
         eAction_Ack,
         eAction_Heartbit,
@@ -43,6 +43,7 @@ public:
     std::string source() { return mSource; }
     std::string destination() { return mDestination; }
 
+    void setSync(bool sync) { mType = sync ? eType_Sync : eType_Async; }
     void setType(CommandType type) { mType = type; }
     void setAction(CommandAction action) { mAction = action; }
     void setCid(int cid) { mCid = cid; }

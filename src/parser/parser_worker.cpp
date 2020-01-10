@@ -4,6 +4,7 @@
 
 #include "parser/command.h"
 #include "parser/command_parser.h"
+#include "parser/heartbit_command.h"
 #include "common/poller.h"
 
 namespace ib {
@@ -29,7 +30,7 @@ void ParserWorker::dump(std::ostream& o)
 
 void ParserWorker::onData(const void * buf, int len)
 {
-    base::dump(buf, len);
+    // base::dump(buf, len);
 
     Worker::onData(buf, len); // update alive time.
 
@@ -40,6 +41,8 @@ void ParserWorker::onData(const void * buf, int len)
 
 void ParserWorker::doHeartbit()
 {
+    HeartbitCommand heartbit;
+    write(&heartbit);
 }
 
 void ParserWorker::onPacketParsed(const void * data, int len, int data_offset)

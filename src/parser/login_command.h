@@ -11,14 +11,18 @@ public:
     virtual ~LoginCommand() {}
     DECLARE_CLASS(LoginCommand);
 
-    void setToken(const std::string& token) { mToken = token; }
-    const std::string& token() { return mToken; }
+    void setUuid(const std::string& uuid) { mUuid = uuid; }
+    void setName(const std::string& name) { mName = name; }
+
+    const std::string& uuid() { return mUuid; }
+    const std::string& name() { return mName; }
 
 protected:
-    virtual void Serialize(base::Archive& ar) { ar << mToken; }
-    virtual void Deserialize(base::Archive& ar) { ar >> mToken; }
+    virtual void Serialize(base::Archive& ar) { ar << mUuid << mName; }
+    virtual void Deserialize(base::Archive& ar) { ar >> mUuid >> mName; }
 
-    std::string mToken;
+    std::string mUuid;
+    std::string mName;
 
 private:
     LoginCommand(CommandType type, CommandAction action) : Command(type, action) {}

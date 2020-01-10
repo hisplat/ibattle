@@ -4,7 +4,8 @@
 
 #include "parser/command.h"
 #include "parser/command_parser.h"
-#include "parser/control_command.h"
+#include "parser/return_command.h"
+#include "parser/invoke_command.h"
 #include "common/poller.h"
 
 namespace ib {
@@ -34,8 +35,8 @@ void StdinWorker::onData(const void * buf, int len)
 
     std::string cmd((const char *)buf);
 
-    ControlCommand control;
-    control.setCommand(cmd);
+    InvokeCommand control;
+    control.setData(cmd);
     poller()->onCommand(this, &control);
 }
 
@@ -46,8 +47,8 @@ void StdinWorker::doHeartbit()
 
 void StdinWorker::write(Command* command)
 {
-    if (strcmp(command->getClassName(), "ControlCommand") == 0) {
-        const std::string& s = ((ControlCommand*)command)->command();
+    if (command->isClass("ReturnCommand")) {
+        const std::string& s = ((ReturnCommand*)command)->data();
         Worker::write(s.c_str(), s.length() + 1);
     } else {
         IMPORTANT() << command;

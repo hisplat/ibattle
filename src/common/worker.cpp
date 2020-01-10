@@ -39,7 +39,7 @@ void Worker::attach(Poller* poller)
 
 void Worker::onData(const void* buf, int len)
 {
-    mLastReceivedTime = base::helper::mtick();
+    // mLastReceivedTime = base::helper::mtick();
     // for (int ret = parse(buf, len); ret >= 0; ret = parse(NULL, 0)) {
     //     // packet data will send to onPacketParsed().
     // }
@@ -80,6 +80,7 @@ void Worker::write(const void * buf, int len)
 
 void Worker::onDataArrival(int fd)
 {
+    mLastReceivedTime = base::helper::mtick();
     if (mDevice != NULL) {
         mDevice->onDataArrival(fd);
     }

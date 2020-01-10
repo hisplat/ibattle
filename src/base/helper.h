@@ -4,8 +4,11 @@
 #include <list>
 #include <vector>
 #include <string>
+#include "logging.h"
 
-#define DECLARE_CLASS(clz) virtual const char * getClassName() { return #clz; }
+#define DECLARE_CLASS(clz) \
+    virtual const char * getClassName() { return #clz; } \
+    virtual bool isClass(const std::string& classname) { return classname == #clz; }
 
 namespace base {
 namespace helper {

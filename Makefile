@@ -45,6 +45,7 @@ common_src_files += src/device/stdin_device.cpp
 gate_source := src/gate/main.cpp
 gate_source += src/gate/gate.cpp
 gate_source += src/gate/gate_worker.cpp
+gate_source += src/gate/arena.cpp
 gate_source += $(base_src_files)
 gate_source += $(common_src_files)
 

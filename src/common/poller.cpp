@@ -205,11 +205,11 @@ void Poller::onFileChanged(Worker* worker, const std::string& path, int mask)
 
 void Poller::onDisconnect(Worker* worker)
 {
+    removeWorker(worker);
     LCHECK(mExecutor != NULL);
     if (mExecutor != NULL) {
         mExecutor->onDisconnect(worker);
     }
-    removeWorker(worker);
 }
 
 void Poller::dump(std::ostream& o)

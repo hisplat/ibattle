@@ -38,7 +38,7 @@ public:
     virtual void onTimeout(Worker* worker);
 
 
-    void run(const std::string& ip, int port, const std::string& token);
+    void run(const std::string& ip, int port);
     void stop();
 
     int invoke(Command* command);
@@ -65,8 +65,10 @@ private:
 
 private:
     // on command.
-    void onDatabaseCommand(Worker* worker, Command* command);
-    void onLoginCommand(Worker* worker, Command* command);
+    void onInvokeCommand(Worker* worker, Command* command);
+    void onRetCommand(Worker* worker, Command* command);
+    void onAckCommand(Worker* worker, Command* command);
+
 };
 
 } // namespace ib

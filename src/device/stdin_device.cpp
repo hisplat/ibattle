@@ -31,7 +31,7 @@ void StdinDevice::write(const void * buf, int len)
 {
     // base::Buffer buffer(buf, len);
     // QUIET() << buffer;
-    printf("<gate> %s\n", (const char *)buf);
+    printf("<gate>: %s\n", (const char *)buf);
 }
 
 } // namespace ib

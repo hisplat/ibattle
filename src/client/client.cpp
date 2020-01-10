@@ -45,7 +45,7 @@ void Client::destroyWorker(Worker* worker)
     }
 }
 
-void Client::run(const std::string& ip, int port, const std::string& token)
+void Client::run(const std::string& ip, int port)
 {
     base::Socket s;
     bool ret = s.create();
@@ -56,6 +56,7 @@ void Client::run(const std::string& ip, int port, const std::string& token)
 
     NetDevice * device = new NetDevice(s);
     mWorker = new ClientWorker(device);
+
 
     mPoller->addWorker(mWorker);
 
@@ -80,12 +81,18 @@ void Client::onCommand(Worker* worker, Command* cmd)
 
     switch (action) {
     case Command::eAction_Invoke:
+        onInvokeCommand(worker, cmd);
+        break;
     case Command::eAction_Ret:
+        onRetCommand(worker, cmd);
+        break;
     case Command::eAction_Ack:
+        onAckCommand(worker, cmd);
+        break;
     case Command::eAction_Heartbit:
     case Command::eAction_Game:
     case Command::eAction_Play:
-    case Command::eAction_Control:
+        break;
     case Command::eAction_Live:
     case Command::eAction_Database:
     case Command::eAction_Login:
@@ -101,6 +108,7 @@ void Client::onDisconnect(Worker* worker)
     NFLOG() << "Server disconnected: " << worker;
     mPoller->removeWorker(worker);
     destroyWorker(worker);
+    mWorker = NULL;
 }
 
 void Client::onTimeout(Worker* worker)
@@ -126,14 +134,6 @@ int Client::invoke(Command* command)
 }
 
 
-void Client::onDatabaseCommand(Worker* worker, Command* command)
-{
-}
-
-void Client::onLoginCommand(Worker* worker, Command* command)
-{
-}
-
 Client::ClientWorker::ClientWorker(Device* device)
     : ParserWorker(device)
 {
@@ -145,6 +145,18 @@ Client::ClientWorker::ClientWorker()
 }
 
 Client::ClientWorker::~ClientWorker()
+{
+}
+
+void Client::onInvokeCommand(Worker* worker, Command* command)
+{
+}
+
+void Client::onRetCommand(Worker* worker, Command* command)
+{
+}
+
+void Client::onAckCommand(Worker* worker, Command* command)
 {
 }
 

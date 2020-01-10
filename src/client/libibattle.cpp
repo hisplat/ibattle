@@ -72,10 +72,10 @@ void * Battle::__routine(void* arg)
 
 void Battle::runClient()
 {
-    mClient->run(mIp, mPort, mToken);
+    mClient->run(mIp, mPort);
 }
 
-bool Battle::start(const std::string& ip, int port, const std::string& token, Handler* handler)
+bool Battle::start(const std::string& ip, int port, const std::string& name, Handler* handler)
 {
     if (mInited) {
         return false;
@@ -84,15 +84,18 @@ bool Battle::start(const std::string& ip, int port, const std::string& token, Ha
     mHandler = handler;
     mIp = ip;
     mPort = port;
-    mToken = token;
 
     pthread_create(&mThread, NULL, __routine, this);
     mInited = true;
     mInitWaiter.wait();
     VERBOSE() << "ibattle inited. trying login.";
 
+    mUuid = base::helper::uuid();
+    mName = name;
+
     LoginCommand login;
-    login.setToken(token);
+    login.setUuid(mUuid);
+    login.setName(name);
     mClient->invoke(&login);
 
     return true;

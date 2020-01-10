@@ -41,12 +41,12 @@ int NetDevice::getFd()
 
 int NetDevice::heartbitInterval()
 {
-    return 10;
+    return 10 * 1000;
 }
 
 int NetDevice::heartbitTimeout()
 {
-    return 30;
+    return 30 * 1000;
 }
 
 void NetDevice::disconnect()

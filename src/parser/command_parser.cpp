@@ -2,6 +2,8 @@
 
 #include "login_command.h"
 #include "heartbit_command.h"
+#include "invoke_command.h"
+#include "return_command.h"
 
 namespace ib {
 
@@ -36,7 +38,11 @@ Command * makeCommand(const void * data, int len)
 
     switch (action) {
     case Command::eAction_Invoke:
+        command = new InvokeCommand();
+        break;
     case Command::eAction_Ret:
+        command = new ReturnCommand();
+        break;
     case Command::eAction_Ack:
         break;
     case Command::eAction_Heartbit:

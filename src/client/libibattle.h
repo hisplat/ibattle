@@ -38,7 +38,7 @@ public:
     Battle();
     ~Battle();
     
-    bool start(const std::string& ip, int port, const std::string& token, Handler* handler);
+    bool start(const std::string& ip, int port, const std::string& name, Handler* handler);
     void stop();
 
     RetCode call(const std::string& destination, const std::string& command);
@@ -63,7 +63,8 @@ private:
     Handler* mHandler;
     std::string mIp;
     int mPort;
-    std::string mToken;
+    std::string mUuid;
+    std::string mName;
 
     class Waiter {
     public:

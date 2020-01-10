@@ -1,7 +1,3 @@
 *.o
 *.d
-gmon.out
-gate
-debugtools
-demoserver
-demonode
+*.swp
