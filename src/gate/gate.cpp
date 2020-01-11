@@ -8,6 +8,7 @@
 #include "parser/invoke_command.h"
 #include "parser/return_command.h"
 #include "parser/login_command.h"
+#include "parser/server_info_command.h"
 #include "arena.h"
 #include <sstream>
 
@@ -98,7 +99,9 @@ void Gate::dump(std::ostream& o)
 
 void Gate::onCommand(Worker* worker, Command* cmd)
 {
-    // RUN_HERE() << "received " << cmd << " from " << worker;
+    if (!cmd->isClass("HeartbitCommand")) {
+        RUN_HERE() << "received " << cmd << " from " << worker;
+    }
 
     Command::CommandType type = cmd->type();
     Command::CommandAction action = cmd->action();
@@ -218,7 +221,7 @@ void Gate::onControlCommand(Worker* worker, Command* command)
         int index = 1;
         for (std::map<std::string, Arena*>::iterator it = mArenas.begin(); it != mArenas.end(); it++, index++) {
             Arena* sp = it->second;
-            ss << "Arena #" << index << ": " << sp->name() << std::endl;
+            ss << "Arena #" << index << ": " << sp->name() << "(" << sp->playersPerGame() << ")" << std::endl;
             ss << "     Servers: " << sp->serverCount() << std::endl;
             ss << "     Players: " << sp->playerCount() << std::endl;
 
@@ -252,6 +255,27 @@ void Gate::onServerCommand(GateWorker* worker, Command* command)
         worker->setUuid(uuid);
         worker->setName(name);
         onGameWorkerOnline(worker);
+    } else if (command->isClass("ServerInfoCommand")) {
+        ServerInfoCommand * sic = (ServerInfoCommand*)command;
+        switch (sic->op()) {
+        case ServerInfoCommand::eOp_SetPlayerCount:
+            {
+                std::string name = worker->name();
+                Arena * arena = findArena(name);
+                if (arena == NULL) {
+                    IMPORTANT() << "A server trying to set player count before login: " << worker;
+                    return;
+                }
+                ServerActionSetPlayerCount sasc;
+                sasc.loadFrom(sic->data());
+                arena->setPlayersPerGame(sasc.playercount);
+            }
+            break;
+        case ServerInfoCommand::eOp_Score:
+            break;
+        default:
+            FATAL() << "should not run here.";
+        }
     }
 }
 

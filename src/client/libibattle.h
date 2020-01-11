@@ -16,7 +16,7 @@ namespace ib {
 class Client;
 class Condition;
 class CallbackHelper;
-
+class Command;
 class Battle {
 public:
     class Handler {
@@ -43,6 +43,12 @@ public:
 
     RetCode call(const std::string& destination, const std::string& command);
     RetCode call(const std::string& destination, const std::string& command, base::Buffer& ret, int timeout = 3000);
+
+    RetCode call(Command * command);
+    RetCode call(Command * command, base::Buffer& ret, int timeout = 3000);
+
+    RetCode call(Command& command) { return call(&command); }
+    RetCode call(Command& command, base::Buffer& ret, int timeout = 3000) { return call(&command, ret, timeout); }
 
 public:
     void onCall(const std::string& command, base::Buffer& ret);

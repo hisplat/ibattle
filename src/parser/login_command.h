@@ -17,6 +17,7 @@ public:
     const std::string& uuid() { return mUuid; }
     const std::string& name() { return mName; }
 
+    virtual void dump(std::ostream& o) { o << "Uuid: " << mUuid << ", Name: " << mName; }
 protected:
     virtual void Serialize(base::Archive& ar) { ar << mUuid << mName; }
     virtual void Deserialize(base::Archive& ar) { ar >> mUuid >> mName; }

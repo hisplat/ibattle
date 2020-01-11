@@ -8,8 +8,8 @@ namespace ib {
 class GateWorker;
 class Arena {
 public:
-    Arena() {}
-    ~Arena() {}
+    Arena();
+    ~Arena();
 
     const std::string& name() { return mName; }
     void setName(const std::string& n) { mName = n; }
@@ -25,10 +25,15 @@ public:
     std::list<GateWorker*>& servers() { return mServerWorkers; }
     std::list<GateWorker*>& players() { return mPlayerWorkers; }
 
+    void setPlayersPerGame(int count) { mPlayersPerGame = count; }
+    int playersPerGame() { return mPlayersPerGame; }
+
 private:
     std::string mName;
     std::list<GateWorker*> mServerWorkers;
     std::list<GateWorker*> mPlayerWorkers;
+
+    int mPlayersPerGame;
 };
 } // namespace ib
 

@@ -1,6 +1,7 @@
 
 #include "client/libibattle.h"
 #include "base/logging.h"
+#include "parser/server_info_command.h"
 #include <unistd.h>
 
 class ServerHandler : public ib::Battle::Handler {
@@ -33,6 +34,15 @@ int main(int argc, char * argv[])
     }
 
     battle.start("127.0.0.1", 20100, name, &handler);
+
+    ib::ServerInfoCommand si;
+    si.setOp(ib::ServerInfoCommand::eOp_SetPlayerCount);
+
+    ib::ServerActionSetPlayerCount sasc;
+    sasc.playercount = 3;
+    sasc.saveTo(si.data());
+
+    battle.call(si);
 
     while (true) {
         char temp[1024];

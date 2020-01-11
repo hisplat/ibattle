@@ -4,6 +4,7 @@
 #include "heartbit_command.h"
 #include "invoke_command.h"
 #include "return_command.h"
+#include "server_info_command.h"
 
 namespace ib {
 
@@ -14,8 +15,8 @@ typedef struct {
     __int32_t action;
     __int32_t cid;
     __int32_t sid;
-    char source[32];
-    char destination[32];
+    char source[64];
+    char destination[64];
 } __attribute__((packed)) CommandHeader;
 
 Command * makeCommand(const void * data, int len)
@@ -48,8 +49,10 @@ Command * makeCommand(const void * data, int len)
     case Command::eAction_Heartbit:
         command = new HeartbitCommand();
         break;
-    case Command::eAction_Game:
-    case Command::eAction_Play:
+    case Command::eAction_ServerInfo:
+        command = new ServerInfoCommand();
+        break;
+    case Command::eAction_PlayerInfo:
     case Command::eAction_Control:
     case Command::eAction_Live:
     case Command::eAction_Database:

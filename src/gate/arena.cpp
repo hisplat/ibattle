@@ -3,6 +3,15 @@
 
 namespace ib {
 
+Arena::Arena()
+    : mPlayersPerGame(0)
+{
+}
+
+Arena::~Arena()
+{
+}
+
 void Arena::attachServer(GateWorker* worker)
 {
     mServerWorkers.push_back(worker);

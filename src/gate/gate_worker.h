@@ -29,6 +29,7 @@ public:
     const std::string& uuid() { return mUuid; }
     const std::string& name() { return mName; }
 
+    virtual void dump(std::ostream& o);
 protected:
     GateWorker();
 

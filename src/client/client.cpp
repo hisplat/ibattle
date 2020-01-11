@@ -74,7 +74,9 @@ void Client::stop()
 
 void Client::onCommand(Worker* worker, Command* cmd)
 {
-    RUN_HERE() << cmd;
+    if (!cmd->isClass("HeartbitCommand")) {
+        RUN_HERE() << cmd;
+    }
 
     Command::CommandType type = cmd->type();
     Command::CommandAction action = cmd->action();
@@ -90,8 +92,8 @@ void Client::onCommand(Worker* worker, Command* cmd)
         onAckCommand(worker, cmd);
         break;
     case Command::eAction_Heartbit:
-    case Command::eAction_Game:
-    case Command::eAction_Play:
+    case Command::eAction_ServerInfo:
+    case Command::eAction_PlayerInfo:
         break;
     case Command::eAction_Live:
     case Command::eAction_Database:

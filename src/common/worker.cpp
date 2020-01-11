@@ -177,7 +177,7 @@ std::ostream& operator<<(std::ostream& o, ib::Worker* worker)
           << "LastReceiveTime: " << worker->getLastReceiveTime() << ", "
           << "Poller: " << (void*)worker->poller() << ", ";
         worker->dump(o);
-        o << worker->device()
+        o << ", " << worker->device()
           << "}";
     }
     return o;

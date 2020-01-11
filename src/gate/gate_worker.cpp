@@ -22,5 +22,10 @@ GateWorker::~GateWorker()
 {
 }
 
+void GateWorker::dump(std::ostream& o)
+{
+    o << "Type: " << mType << ", Uuid: " << mUuid << ", Name: " << mName;
+}
+
 } // namespace ib
 

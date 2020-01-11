@@ -44,6 +44,8 @@ Battle::Battle()
     , mHandler(NULL)
     , mHelper(NULL)
 {
+    mUuid = base::helper::uuid();
+
     mHelper = new CallbackHelper(this);
     mClient = new Client(mHelper);
 
@@ -90,13 +92,13 @@ bool Battle::start(const std::string& ip, int port, const std::string& name, Han
     mInitWaiter.wait();
     VERBOSE() << "ibattle inited. trying login.";
 
-    mUuid = base::helper::uuid();
+    // mUuid = base::helper::uuid();
     mName = name;
 
     LoginCommand login;
     login.setUuid(mUuid);
     login.setName(name);
-    mClient->invoke(&login);
+    call(login);
 
     return true;
 }
@@ -109,6 +111,34 @@ void Battle::stop()
 
 Battle::RetCode Battle::call(const std::string& destination, const std::string& command, base::Buffer& ret, int timeout)
 {
+    InvokeCommand invokeCommand;
+    invokeCommand.setData(command);
+    invokeCommand.setSource(mUuid);
+    invokeCommand.setDestination(destination);
+    return call(&invokeCommand, ret, timeout);
+}
+
+Battle::RetCode Battle::call(const std::string& destination, const std::string& command)
+{
+    InvokeCommand invokeCommand;
+    invokeCommand.setData(command);
+    invokeCommand.setSource(mUuid);
+    invokeCommand.setDestination(destination);
+    mClient->invoke(&invokeCommand);
+    return eRet_Success;
+}
+
+Battle::RetCode Battle::call(Command * command)
+{
+    command->setSource(mUuid);
+    mClient->invoke(command);
+    return eRet_Success;
+}
+
+Battle::RetCode Battle::call(Command * command, base::Buffer& ret, int timeout)
+{
+    command->setSource(mUuid);
+
     long nested = (long)pthread_getspecific(mThreadKey);
     if (nested == 1) {
         FATAL() << "nested call has not been implemented yet.";
@@ -123,11 +153,7 @@ Battle::RetCode Battle::call(const std::string& destination, const std::string& 
 
     mSyncCallsLock.acquire(); // sometimes net-thread runs faster than current thread, so invoke() and onReturn() should be synchronized.
 
-
-    InvokeCommand invokeCommand;
-    invokeCommand.setData(command);
-    
-    int cid = mClient->invoke(&invokeCommand);
+    int cid = mClient->invoke(command);
 
     mSyncCalls[cid] = &waiter;
     mSyncCallsLock.release();
@@ -145,7 +171,7 @@ Battle::RetCode Battle::call(const std::string& destination, const std::string& 
         condition.unlock();
     }
     long now = base::helper::mtick();
-    IMPORTANT() << "the last sync call of [" << &invokeCommand << "] costs " << (now - begin) << "/" << timeout << " ms. return code is " << waiter.errorCode() << " which means '" << strRetCode(waiter.errorCode()) << "'";
+    IMPORTANT() << "the last sync call of [" << command << "] costs " << (now - begin) << "/" << timeout << " ms. return code is " << waiter.errorCode() << " which means '" << strRetCode(waiter.errorCode()) << "'";
 
     mSyncCallsLock.acquire();
     std::map<int, Waiter*>::iterator it = mSyncCalls.find(cid);
@@ -155,14 +181,6 @@ Battle::RetCode Battle::call(const std::string& destination, const std::string& 
     mSyncCallsLock.release();
 
     return waiter.errorCode();
-}
-
-Battle::RetCode Battle::call(const std::string& destination, const std::string& command)
-{
-    InvokeCommand invokeCommand;
-    invokeCommand.setData(command);
-    mClient->invoke(&invokeCommand);
-    return eRet_Success;
 }
 
 
@@ -303,6 +321,8 @@ std::string Battle::strRetCode(Battle::RetCode code)
         return "Not inited. you should call 'start' before calling any command.";
     case Battle::eRet_TimeOut:
         return "Timeout.";
+    case Battle::eRet_Disconnected:
+        return "Disconnected.";
     default:
         return "unknown";
     }

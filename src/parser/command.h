@@ -20,8 +20,8 @@ public:
         eAction_Ack,
         eAction_Heartbit,
 
-        eAction_Game,
-        eAction_Play,
+        eAction_ServerInfo,
+        eAction_PlayerInfo,
         eAction_Control,
         eAction_Live,
         eAction_Database,
